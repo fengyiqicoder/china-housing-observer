@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中国楼市监测</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #10141a;
+    --panel: #171d26;
+    --panel-2: #1d242f;
+    --inset: #12171f;
+    --border: #262f3c;
+    --border-strong: #35404f;
+    --text: #dde4ec;
+    --text-2: #94a0af;
+    --text-3: #5d6875;
+    --red: #f0524f;
+    --red-dim: rgba(240,82,79,0.12);
+    --green: #3fb950;
+    --green-dim: rgba(63,185,80,0.12);
+    --amber: #d29922;
+    --blue: #539bf5;
+    --cn: -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    --mono: "IBM Plex Mono", "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--cn);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  ::selection { background: var(--blue); color: #fff; }
+
+  .page { max-width: 1280px; margin: 0 auto; padding: 0 20px 60px; }
+
+  /* ============ 顶栏 ============ */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+    padding: 22px 0 16px;
+    border-bottom: 1px solid var(--border-strong);
+  }
+  .brand { display: flex; align-items: baseline; gap: 12px; }
+  h1 { font-size: 20px; font-weight: 600; letter-spacing: 0.06em; }
+  .brand-code {
+    font-family: var(--mono); font-size: 11px; color: var(--text-3);
+    letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .head-right { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .data-date { font-size: 12px; color: var(--text-3); }
+
+  /* ============ 国际标准面板 ============ */
+  .std-panel {
+    margin-top: 18px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--panel);
+    overflow: hidden;
+  }
+  .std-panel-head {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 16px;
+    background: var(--panel-2);
+    border-bottom: 1px solid var(--border);
+    font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+  }
+  .std-panel-head .zone-key {
+    display: inline-block; width: 5px; height: 14px; border-radius: 2px;
+    background: #7ee787;
+  }
+  .std-panel-head small { font-weight: 400; color: var(--text-3); margin-left: auto; font-size: 11.5px; }
+  .std-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 820px) { .std-grid { grid-template-columns: 1fr; } }
+  .std-cell { padding: 14px 16px; }
+  .std-cell + .std-cell { border-left: 1px solid var(--border); }
+  @media (max-width: 820px) { .std-cell + .std-cell { border-left: none; border-top: 1px solid var(--border); } }
+  .std-name { font-size: 12.5px; color: var(--text-2); }
+  .std-value {
+    font-family: var(--mono); font-size: 22px; font-weight: 600; color: var(--green);
+    line-height: 1.4;
+  }
+  .std-sub { font-size: 11.5px; color: var(--text-3); }
+
+  /* ============ 控制条 ============ */
+  .controls {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; flex-wrap: wrap;
+    position: sticky; top: 0; z-index: 10;
+    background: var(--bg);
+    padding: 14px 0 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 18px;
+  }
+  .filter-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tab {
+    font-family: var(--cn); font-size: 12.5px; cursor: pointer;
+    border: 1px solid var(--border); background: transparent; color: var(--text-2);
+    padding: 5px 14px; border-radius: 6px; transition: all .12s;
+  }
+  .tab:hover { color: var(--text); border-color: var(--border-strong); }
+  .tab.active { background: var(--text); border-color: var(--text); color: var(--bg); font-weight: 600; }
+  .sort-box { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-3); }
+  select {
+    font-family: var(--cn); font-size: 13px; color: var(--text);
+    background: var(--panel-2); border: 1px solid var(--border-strong); border-radius: 6px;
+    padding: 6px 10px; cursor: pointer;
+  }
+  select:focus { outline: 1px solid var(--blue); }
+  .dir-btn {
+    border: 1px solid var(--border-strong); background: var(--panel-2); color: var(--text-2);
+    border-radius: 6px; width: 30px; height: 30px; cursor: pointer; font-size: 12px;
+  }
+  .dir-btn:hover { color: var(--text); }
+
+  /* ============ 卡片网格 ============ */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 16px 14px;
+    transition: border-color .15s;
+  }
+  .card:hover { border-color: var(--border-strong); }
+
+  .card-top { display: flex; align-items: center; gap: 9px; }
+  .rank {
+    font-family: var(--mono); font-size: 12px; font-weight: 500;
+    color: var(--text-3); min-width: 22px;
+  }
+  .city-name { font-size: 19px; font-weight: 600; letter-spacing: 0.08em; }
+  .city-en { font-family: var(--mono); font-size: 10px; color: var(--text-3); letter-spacing: 0.12em; margin-left: 2px; }
+  .tier-badge {
+    margin-left: auto; font-size: 10.5px; padding: 2px 9px; border-radius: 4px;
+    border: 1px solid; white-space: nowrap;
+  }
+  .tier-一线   { color: var(--red); border-color: rgba(240,82,79,0.4); background: var(--red-dim); }
+  .tier-直辖市 { color: var(--amber); border-color: rgba(210,153,34,0.4); background: rgba(210,153,34,0.1); }
+  .tier-副省级 { color: var(--blue); border-color: rgba(83,155,245,0.4); background: rgba(83,155,245,0.1); }
+  .tier-省会   { color: var(--text-2); border-color: var(--border-strong); background: var(--panel-2); }
+
+  /* 数据行 */
+  .data-rows { margin-top: 12px; }
+  .data-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+  .data-row + .data-row { border-top: 1px solid var(--border); }
+  .icon-wrap {
+    width: 28px; height: 28px; flex: none; border-radius: 6px;
+    display: grid; place-items: center; background: var(--panel-2);
+    border: 1px solid var(--border);
+  }
+  .data-mid { flex: 1; min-width: 0; }
+  .data-label { font-size: 11.5px; color: var(--text-2); }
+  .mini-track { height: 3px; border-radius: 99px; background: var(--inset); margin-top: 4px; overflow: hidden; }
+  .mini-fill { height: 100%; border-radius: 99px; width: 0; transition: width .7s ease-out; background: var(--text-3); }
+  .data-value {
+    font-family: var(--mono); font-weight: 600; font-size: 17px;
+    text-align: right; line-height: 1.25; letter-spacing: -0.02em;
+  }
+  .data-unit { font-family: var(--cn); font-size: 10px; color: var(--text-3); font-weight: 400; display: block; }
+
+  /* ============ 对照国际标准子面板 ============ */
+  .std-block {
+    margin-top: 12px;
+    background: var(--inset);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px 12px;
+  }
+  .std-block-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    margin-bottom: 8px;
+  }
+  .std-block-title { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: var(--text-2); }
+  .pass-count {
+    font-family: var(--mono); font-size: 11px; font-weight: 600;
+    padding: 1px 8px; border-radius: 4px; border: 1px solid;
+  }
+  .pass-0 { color: var(--red); border-color: rgba(240,82,79,0.45); background: var(--red-dim); }
+  .pass-mid { color: var(--amber); border-color: rgba(210,153,34,0.45); background: rgba(210,153,34,0.1); }
+  .pass-3 { color: var(--green); border-color: rgba(63,185,80,0.45); background: var(--green-dim); }
+
+  .bullet-row { padding: 5px 0; }
+  .bullet-row + .bullet-row { border-top: 1px dashed var(--border); }
+  .bullet-top { display: flex; align-items: baseline; gap: 8px; }
+  .bullet-name { font-size: 12px; color: var(--text-2); }
+  .bullet-std { font-size: 10.5px; color: var(--text-3); }
+  .bullet-val {
+    margin-left: auto; font-family: var(--mono); font-weight: 600; font-size: 14px;
+  }
+  .bullet-val.bad { color: var(--red); }
+  .bullet-val.ok  { color: var(--green); }
+  .status-chip {
+    font-family: var(--mono); font-size: 10.5px; font-weight: 600;
+    padding: 1px 7px; border-radius: 3px; white-space: nowrap;
+  }
+  .status-chip.bad { background: var(--red); color: #fff; }
+  .status-chip.ok  { background: var(--green); color: #0b1509; }
+
+  .bullet-track {
+    position: relative; height: 20px; margin-top: 6px;
+    background: var(--panel-2); border-radius: 4px;
+  }
+  /* 标准截断线：加粗竖线盖在数值条之上，标出标准上限位置 */
+  .bullet-mark {
+    position: absolute; top: -4px; bottom: -4px;
+    width: 5px; margin-left: -2.5px;
+    background: #7ee787; border-radius: 2px;
+    box-shadow: 0 0 0 1px rgba(13,17,23,0.7);
+    z-index: 3;
+  }
+  .bullet-fill {
+    position: absolute; top: 3px; bottom: 3px; left: 0;
+    border-radius: 3px; width: 0;
+    transition: width .7s ease-out; z-index: 2;
+  }
+  .bullet-fill.bad { background: var(--red); }
+  .bullet-fill.ok  { background: var(--green); }
+  .bullet-over {
+    position: absolute; right: 3px; top: 0; bottom: 0;
+    display: flex; align-items: center;
+    font-family: var(--mono); font-size: 9px; color: var(--red); z-index: 3;
+  }
+
+  /* 世界参照卡 */
+  .card.world { background: var(--inset); border-style: dashed; }
+  .tier-国际参照 { color: var(--green); border-color: rgba(63,185,80,0.4); background: var(--green-dim); }
+  .sec-label {
+    grid-column: 1 / -1;
+    font-size: 14px; font-weight: 600; letter-spacing: 0.12em;
+    margin-top: 16px; display: flex; align-items: center; gap: 12px; color: var(--text-2);
+  }
+  .sec-label::after { content: ""; flex: 1; border-top: 1px solid var(--border); }
+  .sec-label small { font-weight: 400; font-size: 11px; color: var(--text-3); letter-spacing: 0.03em; }
+
+  footer {
+    margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--border-strong);
+    font-size: 12px; color: var(--text-3); line-height: 1.8;
+  }
+  footer p { margin-bottom: 4px; }
+  footer strong { color: var(--text-2); font-weight: 500; }
+  footer code { font-family: var(--mono); font-size: 11px; background: var(--panel-2); padding: 1px 6px; border-radius: 4px; }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="brand">
+      <h1>中国楼市监测</h1>
+      <span class="brand-code">CHN·HOUSING·36</span>
+    </div>
+    <div class="head-right">
+      <div class="data-date">数据版本：<span id="dataDate">—</span></div>
+    </div>
+  </header>
+
+  <!-- 国际标准面板 -->
+  <div class="std-panel">
+    <div class="std-panel-head">
+      <span class="zone-key"></span> 国际标准
+      <small>卡片量表中的绿色竖线即标准上限位置 · 绿=达标 红=超标</small>
+    </div>
+    <div class="std-grid" id="stdGrid"></div>
+  </div>
+
+  <!-- 筛选 + 排序 -->
+  <div class="controls">
+    <div class="filter-tabs" id="filterTabs"></div>
+    <div class="sort-box">
+      排序
+      <select id="sortSelect">
+        <option value="pir">房价收入比</option>
+        <option value="price">平均房价</option>
+        <option value="rent">平均月租</option>
+        <option value="salary">平均工资</option>
+        <option value="rpr">租售比</option>
+        <option value="rti">房租收入比</option>
+      </select>
+      <button class="dir-btn" id="dirBtn" title="切换升降序">▼</button>
+    </div>
+  </div>
+
+  <!-- 城市卡片 -->
+  <div class="grid" id="grid"></div>
+
+  <footer>
+    <p><strong>字段口径</strong> — 平均房价：二手住宅挂牌均价；平均月租：整租套均月租金；平均工资：城镇单位就业人员税前月薪。数据行下方灰色细条为该城相对 36 城最高值的比例。</p>
+    <p><strong>指标口径</strong> — 房价收入比 =（房价 × 90㎡）÷ 双职工家庭年收入；租售比 = 月租金 ÷（房价 × 60㎡），记作 1:N；房租收入比 = 月租金 ÷ 月薪。</p>
+    <p><strong>国际标准</strong> — 房价收入比合理区间 3–6 倍（世界银行 / 联合国人居署常引）；租售比合理区间 1:200–1:300；房租收入比警戒线 30%。</p>
+    <p><strong>世界参照</strong> — 纽约、伦敦、东京、新加坡采用与中国城市相同的字段与指标口径，数值为按当期汇率折合人民币的估算值，仅供量级对比。</p>
+    <p><strong>数据更新</strong> — 直接编辑项目内 <code>data.js</code> 中的数字，刷新页面即可生效。默认数据为 2025 年估算示例，请以国家统计局及贝壳、诸葛找房等平台最新数据为准。</p>
+  </footer>
+</div>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  "use strict";
+  const DEFAULTS = window.CITY_DATA;
+  const A = DEFAULTS.assumptions;
+  const fmt = new Intl.NumberFormat("zh-CN");
+  const TIERS = ["全部", "一线", "直辖市", "副省级", "省会"];
+
+  let tierFilter = "全部";
+  let sortKey = "pir";
+  let sortDesc = true;
+
+  /* ---------- 图标（内联 SVG，线性单色） ---------- */
+  const ICON = {
+    price: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a0af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/></svg>`,
+    rent:  `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a0af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="4.5"/><path d="M11.2 11.2L21 21"/><path d="M17 17l2.5-2.5"/><path d="M14 14l2-2"/></svg>`,
+    wage:  `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a0af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3l5 7 5-7"/><path d="M12 10v11"/><path d="M8 13h8"/><path d="M8 17h8"/></svg>`,
+    globe: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5d6875" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 010 18a14 14 0 010-18"/></svg>`
+  };
+
+  /* ---------- 三大指标定义 ----------
+     scale：量表满格值；zone：标准区间；chip：状态章文案 */
+  const INDICATORS = [
+    {
+      key: "pir", name: "房价收入比", stdText: "标准 3–6倍",
+      scale: 24, zone: [3, 6], limit: 6,
+      fmtVal: v => v.toFixed(1) + "倍",
+      chip: v => v <= 6 ? "达标" : "超标 ×" + (v / 6).toFixed(1)
+    },
+    {
+      key: "rpr", name: "租售比", stdText: "标准 1:200–300",
+      scale: 700, zone: [200, 300], limit: 300,
+      fmtVal: v => "1:" + Math.round(v),
+      chip: v => v <= 300 ? "达标" : "超标 ×" + (v / 300).toFixed(1)
+    },
+    {
+      key: "rti", name: "房租收入比", stdText: "警戒 ≤30%",
+      scale: 60, zone: [0, 30], limit: 30,
+      fmtVal: v => v.toFixed(0) + "%",
+      chip: v => v <= 30 ? "达标" : "超标 +" + (v - 30).toFixed(0) + "pt"
+    }
+  ];
+
+  /* ---------- 数据读取（更新数据请直接编辑 data.js） ---------- */
+  function loadData() {
+    return {
+      cities: DEFAULTS.cities.map(c => ({ ...c })),
+      world: DEFAULTS.worldCities.map(c => ({ ...c }))
+    };
+  }
+
+  /* ---------- 指标计算 ---------- */
+  function metrics(c) {
+    const pir = (c.price * A.buyArea) / (c.salary * A.earnersPerHome * 12);
+    const rpr = (c.price * A.rentArea) / c.rent;
+    const rti = (c.rent / c.salary) * 100;
+    return { pir, rpr, rti };
+  }
+
+  /* ---------- 国际标准面板 ---------- */
+  function renderStdPanel() {
+    document.getElementById("stdGrid").innerHTML = [
+      { name: "房价收入比", value: "3 – 6 倍", sub: "90㎡ 房价 ÷ 双职工家庭年收入 · 世界银行/人居署口径" },
+      { name: "租售比", value: "1:200 – 1:300", sub: "月租 ÷ 60㎡ 房价 · 约 17–25 年租金回本" },
+      { name: "房租收入比", value: "≤ 30%", sub: "月租金占月薪比例 · 超过即构成租金负担" }
+    ].map(s => `
+      <div class="std-cell">
+        <div class="std-name">${s.name}</div>
+        <div class="std-value">${s.value}</div>
+        <div class="std-sub">${s.sub}</div>
+      </div>`).join("");
+  }
+
+  /* ---------- 子弹图行 ---------- */
+  function bulletRow(ind, value) {
+    const ok = value <= ind.limit;
+    const over = value > ind.scale;
+    const w = Math.min(value / ind.scale * 100, 100);
+    const mark = ind.limit / ind.scale * 100;
+    return `
+    <div class="bullet-row">
+      <div class="bullet-top">
+        <span class="bullet-name">${ind.name}</span>
+        <span class="bullet-std">${ind.stdText}</span>
+        <span class="bullet-val ${ok ? "ok" : "bad"}">${ind.fmtVal(value)}</span>
+        <span class="status-chip ${ok ? "ok" : "bad"}">${ind.chip(value)}</span>
+      </div>
+      <div class="bullet-track">
+        <div class="bullet-mark" style="left:${mark.toFixed(1)}%"></div>
+        <div class="bullet-fill ${ok ? "ok" : "bad"}" data-w="${w.toFixed(1)}"></div>
+        ${over ? `<span class="bullet-over">≫</span>` : ""}
+      </div>
+    </div>`;
+  }
+
+  /* ---------- 数据行 ---------- */
+  function metricRow(icon, label, value, unit, pct) {
+    return `
+      <div class="data-row">
+        <div class="icon-wrap">${icon}</div>
+        <div class="data-mid">
+          <div class="data-label">${label}</div>
+          <div class="mini-track"><div class="mini-fill" data-w="${pct.toFixed(1)}"></div></div>
+        </div>
+        <div class="data-value">${fmt.format(value)}<span class="data-unit">${unit}</span></div>
+      </div>`;
+  }
+
+  /* ---------- 城市卡片 ---------- */
+  function cityCard(r, i, maxes, isWorld) {
+    const passes = INDICATORS.filter(ind => r[ind.key] <= ind.limit).length;
+    const passCls = passes === 0 ? "pass-0" : passes === 3 ? "pass-3" : "pass-mid";
+    const tier = isWorld ? "国际参照" : r.tier;
+    return `
+    <div class="card ${isWorld ? "world" : ""}">
+      <div class="card-top">
+        <span class="rank">${isWorld ? ICON.globe : String(i + 1).padStart(2, "0")}</span>
+        <span class="city-name">${r.name}</span>
+        <span class="city-en">${r.en}</span>
+        <span class="tier-badge tier-${tier}">${tier}</span>
+      </div>
+
+      <div class="data-rows">
+        ${metricRow(ICON.price, "平均房价", r.price, "元/㎡", r.price / maxes.price * 100)}
+        ${metricRow(ICON.rent, "平均月租", r.rent, "元/月", r.rent / maxes.rent * 100)}
+        ${metricRow(ICON.wage, "平均工资", r.salary, "元/月", r.salary / maxes.salary * 100)}
+      </div>
+
+      <div class="std-block">
+        <div class="std-block-head">
+          <span class="std-block-title">对照国际标准</span>
+          <span class="pass-count ${passCls}">${passes}/3 达标</span>
+        </div>
+        ${INDICATORS.map(ind => bulletRow(ind, r[ind.key])).join("")}
+      </div>
+    </div>`;
+  }
+
+  /* ---------- 渲染 ---------- */
+  function renderTabs() {
+    document.getElementById("filterTabs").innerHTML = TIERS.map(t =>
+      `<button class="tab ${t === tierFilter ? "active" : ""}" data-tier="${t}">${t === "全部" ? "全部 36 城" : t}</button>`
+    ).join("");
+  }
+
+  function render() {
+    const data = loadData();
+    renderTabs();
+
+    const all = data.cities.map(c => ({ ...c, ...metrics(c) }));
+    const world = data.world.map(c => ({ ...c, ...metrics(c) }));
+    const both = all.concat(world);
+    const maxes = {
+      price:  Math.max(...both.map(r => r.price)),
+      rent:   Math.max(...both.map(r => r.rent)),
+      salary: Math.max(...both.map(r => r.salary))
+    };
+    const rows = all
+      .filter(r => tierFilter === "全部" || r.tier === tierFilter)
+      .sort((a, b) => sortDesc ? b[sortKey] - a[sortKey] : a[sortKey] - b[sortKey]);
+    const worldRows = world.slice()
+      .sort((a, b) => sortDesc ? b[sortKey] - a[sortKey] : a[sortKey] - b[sortKey]);
+
+    const worldHtml = `
+      <div class="sec-label">世界参照<small>同口径计算 · 数值按当期汇率折合人民币（估算）</small></div>
+      ${worldRows.map((r, i) => cityCard(r, i, maxes, true)).join("")}`;
+
+    document.getElementById("grid").innerHTML =
+      rows.map((r, i) => cityCard(r, i, maxes)).join("") + worldHtml;
+
+    requestAnimationFrame(() => {
+      document.querySelectorAll(".bullet-fill, .mini-fill").forEach(el => { el.style.width = el.dataset.w + "%"; });
+    });
+
+    document.getElementById("dataDate").textContent = DEFAULTS.updatedAt;
+  }
+
+  /* ---------- 控制条事件 ---------- */
+  document.getElementById("filterTabs").addEventListener("click", e => {
+    const tier = e.target.dataset && e.target.dataset.tier;
+    if (!tier) return;
+    tierFilter = tier;
+    render();
+  });
+  document.getElementById("sortSelect").addEventListener("change", e => {
+    sortKey = e.target.value; render();
+  });
+  document.getElementById("dirBtn").addEventListener("click", e => {
+    sortDesc = !sortDesc;
+    e.currentTarget.textContent = sortDesc ? "▼" : "▲";
+    render();
+  });
+
+  renderStdPanel();
+  render();
+})();
+</script>
+</body>
+</html>
