@@ -706,7 +706,9 @@
     }
     const el = document.getElementById("card-" + name);
     if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    const target = Math.max(0, el.getBoundingClientRect().top + window.scrollY - (window.innerHeight - el.offsetHeight) / 2);
+    window.scrollTo({ top: target, behavior: "smooth" });
+    setTimeout(() => { if (Math.abs(window.scrollY - target) > 80) window.scrollTo({ top: target }); }, 700);
     el.classList.add("flash");
     setTimeout(() => el.classList.remove("flash"), 1600);
   });
