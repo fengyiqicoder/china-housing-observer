@@ -222,6 +222,7 @@
   .tier-副省级 { color: var(--blue); border-color: rgba(83,155,245,0.4); background: rgba(83,155,245,0.1); }
   .tier-省会   { color: var(--text-2); border-color: var(--border-strong); background: var(--panel-2); }
   .tier-地级   { color: var(--text-2); border-color: var(--border-strong); background: var(--panel-2); }
+  .tier-台湾   { color: #bc8cff; border-color: rgba(188,140,255,0.4); background: rgba(188,140,255,0.1); }
 
   /* 数据行 */
   .data-rows { margin-top: 12px; }
@@ -332,7 +333,7 @@
   <header>
     <div class="brand">
       <h1>中国楼市监测</h1>
-      <span class="brand-code">CHN·HOUSING·298</span>
+      <span class="brand-code">CHN·HOUSING·307</span>
     </div>
     <div class="head-right">
       <div class="data-date">数据版本：<span id="dataDate">—</span></div>
@@ -389,7 +390,7 @@
   <div class="grid" id="grid"></div>
 
   <footer>
-    <p><strong>数据来源</strong> — 平均房价：贝壳找房、安居客、诸葛找房等平台公布的二手住宅挂牌均价（多平台交叉核对取整）；平均月租：上述平台整租套均月租金；平均工资：国家统计局及各地统计局发布的城镇单位就业人员平均工资（折算为税前月薪）。世界参照城市来自 Numbeo 等公开数据，按当期汇率折合人民币。以上均为估算整理值，非官方成交口径。</p>
+    <p><strong>数据来源</strong> — 平均房价：贝壳找房、安居客、诸葛找房等平台公布的二手住宅挂牌均价（多平台交叉核对取整）；平均月租：上述平台整租套均月租金；平均工资：国家统计局及各地统计局发布的城镇单位就业人员平均工资（折算为税前月薪）。台湾城市：不动产实价登录、591 房屋交易网等公开数据，薪资来自当地统计部门，按当期汇率折合人民币。世界参照城市来自 Numbeo 等公开数据，按当期汇率折合人民币。以上均为估算整理值，非官方成交口径。</p>
     <p><strong>字段口径</strong> — 平均房价：二手住宅挂牌均价（元/㎡）；平均月租：整租套均月租金（元/月）；平均工资：城镇单位就业人员税前月薪（元/月）。数据行下方灰色细条为该城相对全部城市最高值的比例。</p>
     <p><strong>计算方式</strong> — 房价收入比 =（房价 × 90㎡）÷ 双职工家庭年收入；租售比 = 月租金 ÷（房价 × 60㎡），记作 1:N；房租收入比 = 月租金 ÷ 月薪。</p>
     <p><strong>国际标准</strong> — 房价收入比合理区间 3–6 倍（世界银行 / 联合国人居署常引）；租售比合理区间 1:200–1:300（约 17–25 年租金回本）；房租收入比警戒线 30%。</p>
@@ -398,14 +399,14 @@
 </div>
 
 <script src="https://cdn.bootcdn.net/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="data.js?v=298"></script>
+<script src="data.js?v=307"></script>
 <script>
 (function () {
   "use strict";
   const DEFAULTS = window.CITY_DATA;
   const A = DEFAULTS.assumptions;
   const fmt = new Intl.NumberFormat("zh-CN");
-  const TIERS = ["全部", "一线", "直辖市", "副省级", "省会", "地级"];
+  const TIERS = ["全部", "一线", "直辖市", "副省级", "省会", "地级", "台湾"];
 
   let tierFilter = "全部";
   let sortKey = "pir";
@@ -663,7 +664,10 @@
     "张掖":[100.45,38.93],"平凉":[106.66,35.54],"酒泉":[98.49,39.73],"庆阳":[107.64,35.71],
     "定西":[104.63,35.58],"陇南":[104.92,33.40],
     "石嘴山":[106.38,39.02],"固原":[106.24,36.02],"中卫":[105.19,37.50],
-    "克拉玛依":[84.87,45.60],"吐鲁番":[89.19,42.95],"哈密":[93.51,42.83]
+    "克拉玛依":[84.87,45.60],"吐鲁番":[89.19,42.95],"哈密":[93.51,42.83],
+    "台北":[121.56,25.03],"新北":[121.46,25.01],"桃园":[121.30,24.99],"新竹":[120.97,24.80],
+    "台中":[120.68,24.14],"嘉义":[120.45,23.48],"台南":[120.21,22.99],"高雄":[120.31,22.62],
+    "基隆":[121.74,25.13]
   };
 
   /* WGS-84 → GCJ-02 纠偏（高德瓦片使用火星坐标系） */

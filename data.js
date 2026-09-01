@@ -2,8 +2,9 @@
  * 中国楼市 · 城市数据文件
  * ------------------------------------------------------------
  * 覆盖范围：一线城市、直辖市、副省级城市（含计划单列市）、省会城市，
- * 以及全国全部地级市（三沙市无住宅市场数据，未收录；另含大理、喀什
- * 两个州/地区驻地城市），共 298 城。
+ * 全国全部地级市（三沙市无住宅市场数据，未收录；另含大理、喀什
+ * 两个州/地区驻地城市），以及台湾主要城市 9 城，共 307 城。
+ * 台湾城市数值按当期汇率折合人民币（新台币约 0.22–0.23 元）。
  *
  * 更新数据的两种方式：
  *   1. 直接修改本文件中的数字，刷新页面即可生效；
@@ -11,7 +12,7 @@
  *      （保存到浏览器 localStorage，优先级高于本文件）。
  *
  * 字段口径：
- *   tier   城市分组：一线 | 直辖市 | 副省级 | 省会 | 地级
+ *   tier   城市分组：一线 | 直辖市 | 副省级 | 省会 | 地级 | 台湾
  *   price  平均房价（二手住宅挂牌均价，元/平方米）
  *   rent   平均月租（整租套均月租金，元/月）
  *   salary 平均工资（城镇单位就业人员平均月薪，元/月，税前）
@@ -378,7 +379,18 @@ window.CITY_DATA = {
     /* —— 新疆 其余地级市 —— */
     { name: "克拉玛依", en: "KARAMAY",    tier: "地级",   price: 6400,  rent: 1050, salary: 10500 },
     { name: "吐鲁番", en: "TURPAN",       tier: "地级",   price: 5100,  rent: 900,  salary: 7800 },
-    { name: "哈密",   en: "HAMI",         tier: "地级",   price: 5600,  rent: 950,  salary: 8200 }
+    { name: "哈密",   en: "HAMI",         tier: "地级",   price: 5600,  rent: 950,  salary: 8200 },
+
+    /* —— 台湾主要城市（实价登录/591 等公开数据，按当期汇率折合人民币） —— */
+    { name: "台北",   en: "TAIPEI",       tier: "台湾",   price: 50800, rent: 6800, salary: 14200 },
+    { name: "新北",   en: "NEW TAIPEI",   tier: "台湾",   price: 27200, rent: 4500, salary: 12000 },
+    { name: "桃园",   en: "TAOYUAN",      tier: "台湾",   price: 20400, rent: 3600, salary: 11800 },
+    { name: "新竹",   en: "HSINCHU",      tier: "台湾",   price: 23800, rent: 4050, salary: 14600 },
+    { name: "台中",   en: "TAICHUNG",     tier: "台湾",   price: 21800, rent: 3600, salary: 11300 },
+    { name: "嘉义",   en: "CHIAYI",       tier: "台湾",   price: 11600, rent: 2250, salary: 10200 },
+    { name: "台南",   en: "TAINAN",       tier: "台湾",   price: 17000, rent: 2900, salary: 10800 },
+    { name: "高雄",   en: "KAOHSIUNG",    tier: "台湾",   price: 18400, rent: 3100, salary: 10900 },
+    { name: "基隆",   en: "KEELUNG",      tier: "台湾",   price: 10200, rent: 2300, salary: 10300 }
   ],
 
   /* 计算假设（可按需调整） */
