@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
   :root {
     --bg: #10141a;
@@ -85,21 +86,46 @@
     display: inline-block; width: 8px; height: 8px; border-radius: 50%;
     margin-right: 4px; vertical-align: -1px;
   }
-  .map-wrap { position: relative; padding: 8px 12px 12px; }
-  #cnMap { display: block; width: 100%; height: auto; max-height: 540px; margin: 0 auto; }
-  .land { fill: #1a212c; stroke: var(--border-strong); stroke-width: 1; stroke-linejoin: round; }
-  .city-dot { opacity: .9; stroke: rgba(10,13,18,.55); stroke-width: 1; cursor: pointer; }
-  .city-dot:hover { opacity: 1; stroke: #fff; stroke-width: 1.2; }
-  .dot-label { font-family: var(--cn); font-size: 10px; fill: var(--text-2); pointer-events: none; }
-  .map-tip {
-    position: absolute; display: none; pointer-events: none; z-index: 20;
-    background: rgba(13,17,23,.95); border: 1px solid var(--border-strong);
-    border-radius: 6px; padding: 8px 11px; font-size: 12px; line-height: 1.55;
-    min-width: 160px; box-shadow: 0 6px 20px rgba(0,0,0,.4);
+  .map-body { position: relative; display: flex; }
+  #cnMap { flex: 1; min-width: 0; height: 520px; background: #0d1117; }
+  .leaflet-container { font-family: var(--cn); font-size: 12px; }
+  #cnMap .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) saturate(0.5) brightness(0.92) contrast(0.9); }
+  .leaflet-bar a, .leaflet-bar a:hover {
+    background: var(--panel-2); color: var(--text); border-bottom-color: var(--border-strong);
   }
-  .map-tip .tip-name { font-weight: 600; font-size: 13px; }
-  .map-tip .tip-name small { color: var(--text-3); font-weight: 400; margin-left: 6px; }
-  .map-tip .tip-row { color: var(--text-2); font-size: 11.5px; }
+  .leaflet-control-attribution { background: rgba(13,17,23,.72); color: var(--text-3); }
+  .leaflet-control-attribution a { color: var(--text-2); }
+  .map-tt {
+    background: rgba(13,17,23,.95); border: 1px solid var(--border-strong); border-radius: 5px;
+    color: var(--text); font-size: 12px; padding: 4px 9px; box-shadow: 0 4px 14px rgba(0,0,0,.4);
+  }
+  .map-tt::before { display: none; }
+  .map-side {
+    width: 324px; flex: none; border-left: 1px solid var(--border);
+    background: var(--panel); overflow-y: auto; max-height: 520px;
+  }
+  .map-side-empty {
+    height: 100%; display: grid; place-items: center; text-align: center;
+    color: var(--text-3); font-size: 12.5px; line-height: 2.1;
+  }
+  .side-card { padding: 14px 14px 16px; }
+  .side-close {
+    margin-left: 8px; flex: none; width: 24px; height: 24px; border-radius: 6px; cursor: pointer;
+    border: 1px solid var(--border-strong); background: var(--panel-2); color: var(--text-2);
+    font-size: 14px; line-height: 1;
+  }
+  .side-close:hover { color: var(--text); }
+  .side-locate {
+    margin-top: 12px; width: 100%; padding: 7px 0; cursor: pointer; border-radius: 6px;
+    border: 1px solid var(--border-strong); background: var(--panel-2); color: var(--text-2);
+    font-family: var(--cn); font-size: 12px;
+  }
+  .side-locate:hover { color: var(--text); border-color: var(--blue); }
+  @media (max-width: 820px) {
+    #cnMap { height: 420px; }
+    .map-side { display: none; position: absolute; inset: 0; width: auto; max-height: none; z-index: 1100; border-left: none; }
+    .map-side.on { display: block; }
+  }
   .card.flash { border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue); }
 
   /* ============ 国际标准面板 ============ */
@@ -322,12 +348,14 @@
         <span><span class="legend-dot" style="background:var(--amber)"></span>1–2 项达标</span>
         <span><span class="legend-dot" style="background:var(--red)"></span>0 项达标</span>
         <span>点越大房价越高</span>
-        <span>点击定位城市卡片</span>
+        <span>点击城市点查看完整数据</span>
       </div>
     </div>
-    <div class="map-wrap" id="mapWrap">
-      <svg id="cnMap" viewBox="0 0 640 464" role="img" aria-label="中国 64 城房价指标地图"></svg>
-      <div class="map-tip" id="mapTip"></div>
+    <div class="map-body">
+      <div id="cnMap"></div>
+      <aside class="map-side" id="mapSide">
+        <div class="map-side-empty">点击地图上的彩色城市点<br>在此查看完整数据卡片</div>
+      </aside>
     </div>
   </div>
 
@@ -369,6 +397,7 @@
   </footer>
 </div>
 
+<script src="https://cdn.bootcdn.net/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="data.js"></script>
 <script>
 (function () {
@@ -569,105 +598,149 @@
     "天水":[105.72,34.58],"海东":[102.10,36.50],"吴忠":[106.20,37.99],"喀什":[75.99,39.47]
   };
 
-  /* 简化版国界轮廓（经纬度，仅示意） */
-  const OUTLINE = [
-    [73.6,39.4],[74.8,40.4],[76.5,41.0],[79.8,42.0],[80.2,42.8],[80.4,44.8],[82.3,45.6],
-    [83.0,47.2],[85.6,48.4],[87.3,49.1],[90.7,47.9],[94.9,44.3],[97.2,42.8],[101.8,42.5],
-    [104.5,41.9],[107.5,42.4],[110.4,42.7],[111.9,43.7],[113.6,44.7],[116.1,45.7],[116.7,47.9],
-    [118.3,48.0],[117.4,49.6],[119.9,50.4],[121.5,53.3],[124.8,53.2],[126.6,52.3],[127.5,50.4],
-    [129.5,49.4],[130.9,48.9],[134.7,48.3],[134.6,47.3],[133.2,46.0],[131.1,45.0],[131.3,44.0],
-    [130.6,42.4],[128.1,41.4],[126.0,40.9],[124.4,40.1],[122.3,39.5],[121.1,38.7],[122.0,40.4],
-    [121.0,40.9],[119.5,39.9],[117.8,39.2],[117.7,38.4],[118.8,38.1],[119.2,37.3],[120.3,37.7],
-    [121.4,37.6],[122.6,37.4],[122.5,36.9],[120.3,36.0],[119.4,35.0],[119.2,34.6],[120.9,33.0],
-    [121.9,31.7],[121.0,30.6],[121.9,29.9],[121.6,28.9],[120.6,27.8],[119.9,26.6],[119.6,25.7],
-    [118.1,24.4],[116.5,23.2],[114.8,22.6],[114.0,22.4],[113.5,22.1],[112.4,21.7],[110.5,21.2],
-    [110.1,20.2],[109.7,21.4],[108.6,21.7],[108.0,21.5],[106.7,22.8],[105.3,23.2],[104.8,22.8],
-    [103.9,22.5],[102.1,22.4],[101.8,21.1],[100.1,21.4],[99.2,22.1],[98.7,24.1],[97.5,24.7],
-    [98.3,26.6],[98.7,27.5],[97.5,28.5],[97.0,27.7],[95.2,26.9],[92.7,26.9],[91.6,27.7],
-    [89.6,28.2],[88.9,27.3],[88.1,27.9],[86.0,28.0],[85.0,28.6],[82.1,30.1],[81.0,30.2],
-    [79.7,30.9],[79.0,31.4],[78.4,32.5],[78.9,33.5],[78.0,34.6],[77.8,35.5],[76.2,35.8],
-    [75.0,36.9],[74.6,37.1],[73.8,37.3],[73.5,38.5]
-  ];
-  const HAINAN = [[108.6,19.5],[109.2,20.0],[110.0,20.1],[110.7,20.0],[111.0,19.6],[110.5,18.7],[109.5,18.2],[108.7,18.9]];
-  const TAIWAN = [[121.6,25.3],[121.9,24.9],[121.4,23.1],[120.9,21.9],[120.2,22.6],[120.1,23.5],[121.0,25.1]];
-
-  function prj(lon, lat) { return [(lon - 72) * 10, (55.5 - lat) * 12.2]; }
-  function ringPath(pts) {
-    return "M" + pts.map(p => {
-      const q = prj(p[0], p[1]);
-      return q[0].toFixed(1) + " " + q[1].toFixed(1);
-    }).join("L") + "Z";
+  /* WGS-84 → GCJ-02 纠偏（高德瓦片使用火星坐标系） */
+  function wgs2gcj(lon, lat) {
+    const a = 6378245, ee = 0.00669342162296594323;
+    const x = lon - 105, y = lat - 35;
+    let dLat = -100 + 2 * x + 3 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * Math.sqrt(Math.abs(x));
+    dLat += (20 * Math.sin(6 * x * Math.PI) + 20 * Math.sin(2 * x * Math.PI)) * 2 / 3;
+    dLat += (20 * Math.sin(y * Math.PI) + 40 * Math.sin(y / 3 * Math.PI)) * 2 / 3;
+    dLat += (160 * Math.sin(y / 12 * Math.PI) + 320 * Math.sin(y * Math.PI / 30)) * 2 / 3;
+    let dLon = 300 + x + 2 * y + 0.1 * x * x + 0.1 * x * y + 0.1 * Math.sqrt(Math.abs(x));
+    dLon += (20 * Math.sin(6 * x * Math.PI) + 20 * Math.sin(2 * x * Math.PI)) * 2 / 3;
+    dLon += (20 * Math.sin(x * Math.PI) + 40 * Math.sin(x / 3 * Math.PI)) * 2 / 3;
+    dLon += (150 * Math.sin(x / 12 * Math.PI) + 300 * Math.sin(x / 30 * Math.PI)) * 2 / 3;
+    const radLat = lat / 180 * Math.PI;
+    let magic = Math.sin(radLat);
+    magic = 1 - ee * magic * magic;
+    const sqrtMagic = Math.sqrt(magic);
+    dLat = (dLat * 180) / ((a * (1 - ee)) / (magic * sqrtMagic) * Math.PI);
+    dLon = (dLon * 180) / (a / sqrtMagic * Math.cos(radLat) * Math.PI);
+    return [lon + dLon, lat + dLat];
   }
 
-  function renderMap() {
-    const svg = document.getElementById("cnMap");
-    const rows = DEFAULTS.cities.map(c => ({ ...c, ...metrics(c) }));
-    const byName = {};
-    rows.forEach(r => { byName[r.name] = r; });
+  const passOf = r => INDICATORS.filter(ind => r[ind.key] <= ind.limit).length;
+  const sideEl = document.getElementById("mapSide");
+  const SIDE_EMPTY = '<div class="map-side-empty">点击地图上的彩色城市点<br>在此查看完整数据卡片</div>';
+  const markerByName = {};
+  let selectedName = null;
 
+  function mapMaxes() {
+    const both = DEFAULTS.cities.concat(DEFAULTS.worldCities);
+    return {
+      price:  Math.max(...both.map(r => r.price)),
+      rent:   Math.max(...both.map(r => r.rent)),
+      salary: Math.max(...both.map(r => r.salary))
+    };
+  }
+
+  /* 侧边完整卡片：与下方城市卡片同样的信息结构 */
+  function sideCard(r) {
+    const maxes = mapMaxes();
+    const passes = passOf(r);
+    const passCls = passes === 0 ? "pass-0" : passes === 3 ? "pass-3" : "pass-mid";
+    return `
+    <div class="side-card">
+      <div class="card-top">
+        <span class="city-name">${r.name}</span>
+        <span class="city-en">${r.en}</span>
+        <span class="tier-badge tier-${r.tier}">${r.tier}</span>
+        <button class="side-close" id="sideClose" title="关闭">×</button>
+      </div>
+      <div class="data-rows">
+        ${metricRow(ICON.price, "平均房价", r.price, "元/㎡", r.price / maxes.price * 100)}
+        ${metricRow(ICON.rent, "平均月租", r.rent, "元/月", r.rent / maxes.rent * 100)}
+        ${metricRow(ICON.wage, "平均工资", r.salary, "元/月", r.salary / maxes.salary * 100)}
+      </div>
+      <div class="std-block">
+        <div class="std-block-head">
+          <span class="std-block-title">对照国际标准</span>
+          <span class="pass-count ${passCls}">${passes}/3 达标</span>
+        </div>
+        ${INDICATORS.map(ind => bulletRow(ind, r[ind.key])).join("")}
+      </div>
+      <button class="side-locate" data-name="${r.name}">在下方城市列表中定位 ↓</button>
+    </div>`;
+  }
+
+  function setMarkerStyle(m, r, active) {
+    const n = passOf(r);
+    m.setStyle({
+      fillColor: n === 3 ? "#3fb950" : n === 0 ? "#f0524f" : "#d29922",
+      fillOpacity: 0.9,
+      color: active ? "#ffffff" : "rgba(10,13,18,.65)",
+      weight: active ? 2 : 1
+    });
+  }
+
+  function showSide(r) {
+    const prev = markerByName[selectedName];
+    if (prev) setMarkerStyle(prev.marker, prev.row, false);
+    selectedName = r.name;
+    const cur = markerByName[r.name];
+    if (cur) setMarkerStyle(cur.marker, cur.row, true);
+    sideEl.innerHTML = sideCard(r);
+    sideEl.classList.add("on");
+    sideEl.scrollTop = 0;
+    requestAnimationFrame(() => {
+      sideEl.querySelectorAll(".bullet-fill, .mini-fill").forEach(el => { el.style.width = el.dataset.w + "%"; });
+    });
+  }
+
+  function closeSide() {
+    const prev = markerByName[selectedName];
+    if (prev) setMarkerStyle(prev.marker, prev.row, false);
+    selectedName = null;
+    sideEl.classList.remove("on");
+    sideEl.innerHTML = SIDE_EMPTY;
+  }
+
+  sideEl.addEventListener("click", e => {
+    if (e.target.id === "sideClose") { closeSide(); return; }
+    const name = e.target.dataset && e.target.dataset.name;
+    if (!name) return;
+    const city = DEFAULTS.cities.find(c => c.name === name);
+    if (city && tierFilter !== "全部" && tierFilter !== city.tier) {
+      tierFilter = "全部";
+      render();
+    }
+    const el = document.getElementById("card-" + name);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    el.classList.add("flash");
+    setTimeout(() => el.classList.remove("flash"), 1600);
+  });
+
+  function renderMap() {
+    const el = document.getElementById("cnMap");
+    if (!window.L) {
+      el.innerHTML = '<div class="map-side-empty" style="height:100%">地图组件加载失败（Leaflet CDN 不可达），请刷新重试</div>';
+      return;
+    }
+    const rows = DEFAULTS.cities.map(c => ({ ...c, ...metrics(c) }));
     const sq = rows.map(r => Math.sqrt(r.price));
     const sqMin = Math.min(...sq), sqMax = Math.max(...sq);
-    const rOf = p => 2.6 + 5.4 * (Math.sqrt(p) - sqMin) / (sqMax - sqMin);
-    const passOf = r => INDICATORS.filter(ind => r[ind.key] <= ind.limit).length;
-    const colOf = n => n === 3 ? "var(--green)" : n === 0 ? "var(--red)" : "var(--amber)";
+    const rOf = p => 4 + 6.5 * (Math.sqrt(p) - sqMin) / (sqMax - sqMin);
 
-    const land =
-      `<path class="land" d="${ringPath(OUTLINE)}"/>` +
-      `<path class="land" d="${ringPath(HAINAN)}"/>` +
-      `<path class="land" d="${ringPath(TAIWAN)}"/>`;
-    const inset =
-      `<g><rect x="586" y="382" width="48" height="74" rx="4" fill="none" stroke="var(--border-strong)" stroke-dasharray="3 3"/>` +
-      `<text x="610" y="396" text-anchor="middle" style="font-size:8px;fill:var(--text-3);font-family:var(--cn)">南海诸岛</text>` +
-      `<circle cx="600" cy="408" r="1.3" fill="var(--text-3)"/><circle cx="613" cy="418" r="1.3" fill="var(--text-3)"/>` +
-      `<circle cx="605" cy="432" r="1.3" fill="var(--text-3)"/><circle cx="618" cy="444" r="1.3" fill="var(--text-3)"/></g>`;
-
-    const LABELS = { "北京": [7, -5], "上海": [8, 4], "广州": [-8, -4, "end"], "深圳": [7, 9] };
-    const dots = rows.slice().sort((a, b) => b.price - a.price).map(r => {
-      const g = GEO[r.name];
-      if (!g) return "";
-      const [x, y] = prj(g[0], g[1]);
-      let label = "";
-      if (LABELS[r.name]) {
-        const L = LABELS[r.name];
-        label = `<text class="dot-label" x="${(x + L[0]).toFixed(1)}" y="${(y + L[1]).toFixed(1)}"${L[2] ? ` text-anchor="${L[2]}"` : ""}>${r.name}</text>`;
-      }
-      return `<circle class="city-dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${rOf(r.price).toFixed(1)}" fill="${colOf(passOf(r))}" data-name="${r.name}"/>` + label;
-    }).join("");
-
-    svg.innerHTML = land + inset + dots;
-
-    const tip = document.getElementById("mapTip");
-    const wrap = document.getElementById("mapWrap");
-    svg.addEventListener("mousemove", e => {
-      const name = e.target.dataset && e.target.dataset.name;
-      if (!name) { tip.style.display = "none"; return; }
-      const r = byName[name];
-      tip.innerHTML = `
-        <div class="tip-name">${r.name}<small>${r.tier}</small></div>
-        <div class="tip-row">房价 ${fmt.format(r.price)} 元/㎡ · 月租 ${fmt.format(r.rent)} 元</div>
-        <div class="tip-row">工资 ${fmt.format(r.salary)} 元/月 · 房价收入比 ${r.pir.toFixed(1)}倍</div>
-        <div class="tip-row">对照国际标准 ${passOf(r)}/3 达标</div>`;
-      const rect = wrap.getBoundingClientRect();
-      let tx = e.clientX - rect.left + 14, ty = e.clientY - rect.top + 12;
-      if (tx > rect.width - 210) tx -= 226;
-      if (ty > rect.height - 100) ty -= 114;
-      tip.style.left = tx + "px";
-      tip.style.top = ty + "px";
-      tip.style.display = "block";
+    const map = L.map(el, {
+      center: [36, 105], zoom: 4, minZoom: 3, maxZoom: 12,
+      attributionControl: true, worldCopyJump: false
     });
-    svg.addEventListener("mouseleave", () => { tip.style.display = "none"; });
-    svg.addEventListener("click", e => {
-      const name = e.target.dataset && e.target.dataset.name;
-      if (!name) return;
-      if (tierFilter !== "全部" && tierFilter !== byName[name].tier) {
-        tierFilter = "全部";
-        render();
-      }
-      const el = document.getElementById("card-" + name);
-      if (!el) return;
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-      el.classList.add("flash");
-      setTimeout(() => el.classList.remove("flash"), 1600);
+    L.tileLayer("https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}", {
+      subdomains: ["1", "2", "3", "4"],
+      attribution: "地图瓦片 © 高德地图"
+    }).addTo(map);
+
+    rows.slice().sort((a, b) => b.price - a.price).forEach(r => {
+      const g = GEO[r.name];
+      if (!g) return;
+      const [lon, lat] = wgs2gcj(g[0], g[1]);
+      const m = L.circleMarker([lat, lon], { radius: rOf(r.price) });
+      setMarkerStyle(m, r, false);
+      m.addTo(map);
+      m.bindTooltip(`${r.name} · ${passOf(r)}/3 达标 · 点击看详情`, { direction: "top", offset: [0, -6], className: "map-tt", opacity: 1 });
+      m.on("click", () => showSide(r));
+      markerByName[r.name] = { marker: m, row: r };
     });
   }
 
