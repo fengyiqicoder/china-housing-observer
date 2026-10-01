@@ -19,32 +19,32 @@
  * ============================================================ */
 
 window.CITY_DATA = {
-  updatedAt: "2026 年 9 月核对（多平台挂牌/统计数据估算值）",
+  updatedAt: "2026 年 10 月核对（多平台挂牌/统计数据估算值）",
   cities: [
     /* —— 一线城市 —— */
     { name: "北京",   en: "BEIJING",      tier: "一线",   price: 54400, rent: 5850, salary: 13900 },
-    { name: "上海",   en: "SHANGHAI",     tier: "一线",   price: 51500, rent: 5800, salary: 14100 },
-    { name: "广州",   en: "GUANGZHOU",    tier: "一线",   price: 30100, rent: 3150, salary: 11200 },
+    { name: "上海",   en: "SHANGHAI",     tier: "一线",   price: 51500, rent: 5750, salary: 14100 },
+    { name: "广州",   en: "GUANGZHOU",    tier: "一线",   price: 30100, rent: 3100, salary: 11200 },
     { name: "深圳",   en: "SHENZHEN",     tier: "一线",   price: 53200, rent: 4800, salary: 13500 },
 
     /* —— 直辖市 —— */
     { name: "天津",   en: "TIANJIN",      tier: "直辖市", price: 17700, rent: 2400, salary: 9800 },
-    { name: "重庆",   en: "CHONGQING",    tier: "直辖市", price: 9300,  rent: 1450, salary: 9200 },
+    { name: "重庆",   en: "CHONGQING",    tier: "直辖市", price: 9400,  rent: 1450, salary: 9200 },
 
     /* —— 副省级城市（含计划单列市） —— */
     { name: "杭州",   en: "HANGZHOU",     tier: "副省级", price: 30000, rent: 3250, salary: 12800 },
-    { name: "南京",   en: "NANJING",      tier: "副省级", price: 19400, rent: 2650, salary: 11500 },
-    { name: "厦门",   en: "XIAMEN",       tier: "副省级", price: 32000, rent: 2400, salary: 10500 },
-    { name: "宁波",   en: "NINGBO",       tier: "副省级", price: 16700, rent: 1900, salary: 10800 },
+    { name: "南京",   en: "NANJING",      tier: "副省级", price: 19600, rent: 2650, salary: 11500 },
+    { name: "厦门",   en: "XIAMEN",       tier: "副省级", price: 32100, rent: 2400, salary: 10500 },
+    { name: "宁波",   en: "NINGBO",       tier: "副省级", price: 16600, rent: 1900, salary: 10800 },
     { name: "青岛",   en: "QINGDAO",      tier: "副省级", price: 16800, rent: 1750, salary: 9600 },
     { name: "济南",   en: "JINAN",        tier: "副省级", price: 13700, rent: 1500, salary: 9800 },
     { name: "武汉",   en: "WUHAN",        tier: "副省级", price: 12700, rent: 2650, salary: 10200 },
     { name: "成都",   en: "CHENGDU",      tier: "副省级", price: 14300, rent: 2200, salary: 9900 },
     { name: "西安",   en: "XI'AN",        tier: "副省级", price: 12800, rent: 1650, salary: 9400 },
-    { name: "大连",   en: "DALIAN",       tier: "副省级", price: 11600, rent: 1750, salary: 8600 },
+    { name: "大连",   en: "DALIAN",       tier: "副省级", price: 11700, rent: 1750, salary: 8600 },
     { name: "沈阳",   en: "SHENYANG",     tier: "副省级", price: 7900,  rent: 1500, salary: 8300 },
     { name: "长春",   en: "CHANGCHUN",    tier: "副省级", price: 6900,  rent: 1400, salary: 8100 },
-    { name: "哈尔滨", en: "HARBIN",       tier: "副省级", price: 7300,  rent: 1500, salary: 7900 },
+    { name: "哈尔滨", en: "HARBIN",       tier: "副省级", price: 7400,  rent: 1500, salary: 7900 },
 
     /* —— 其他省会城市 —— */
     { name: "福州",   en: "FUZHOU",       tier: "省会",   price: 18400, rent: 2000, salary: 9900 },
@@ -53,26 +53,26 @@ window.CITY_DATA = {
     { name: "长沙",   en: "CHANGSHA",     tier: "省会",   price: 8800,  rent: 1600, salary: 9800 },
     { name: "南昌",   en: "NANCHANG",     tier: "省会",   price: 9100,  rent: 1300, salary: 8800 },
     { name: "石家庄", en: "SHIJIAZHUANG", tier: "省会",   price: 10300, rent: 1300, salary: 8500 },
-    { name: "太原",   en: "TAIYUAN",      tier: "省会",   price: 8700,  rent: 1150, salary: 8400 },
+    { name: "太原",   en: "TAIYUAN",      tier: "省会",   price: 8800,  rent: 1150, salary: 8400 },
     { name: "呼和浩特", en: "HOHHOT",     tier: "省会",   price: 7800,  rent: 1200, salary: 8700 },
-    { name: "南宁",   en: "NANNING",      tier: "省会",   price: 8600,  rent: 1350, salary: 8300 },
+    { name: "南宁",   en: "NANNING",      tier: "省会",   price: 8500,  rent: 1350, salary: 8300 },
     { name: "海口",   en: "HAIKOU",       tier: "省会",   price: 12400, rent: 1750, salary: 8600 },
     { name: "贵阳",   en: "GUIYANG",      tier: "省会",   price: 7100,  rent: 1350, salary: 8600 },
-    { name: "昆明",   en: "KUNMING",      tier: "省会",   price: 9100,  rent: 1400, salary: 8700 },
+    { name: "昆明",   en: "KUNMING",      tier: "省会",   price: 9200,  rent: 1400, salary: 8700 },
     { name: "拉萨",   en: "LHASA",        tier: "省会",   price: 12500, rent: 1850, salary: 10500 },
-    { name: "兰州",   en: "LANZHOU",      tier: "省会",   price: 9400,  rent: 1500, salary: 8500 },
-    { name: "西宁",   en: "XINING",       tier: "省会",   price: 8800,  rent: 1500, salary: 8400 },
-    { name: "银川",   en: "YINCHUAN",     tier: "省会",   price: 6900,  rent: 950,  salary: 8300 },
+    { name: "兰州",   en: "LANZHOU",      tier: "省会",   price: 9300,  rent: 1500, salary: 8500 },
+    { name: "西宁",   en: "XINING",       tier: "省会",   price: 8900,  rent: 1500, salary: 8400 },
+    { name: "银川",   en: "YINCHUAN",     tier: "省会",   price: 6800,  rent: 950,  salary: 8300 },
     { name: "乌鲁木齐", en: "URUMQI",     tier: "省会",   price: 8600,  rent: 1550, salary: 8600 },
 
     /* —— 各省代表性地级市（保证每省至少两城） —— */
-    { name: "苏州",   en: "SUZHOU",       tier: "地级",   price: 14800, rent: 1850, salary: 11000 }, // 江苏
+    { name: "苏州",   en: "SUZHOU",       tier: "地级",   price: 14600, rent: 1850, salary: 11000 }, // 江苏
     { name: "无锡",   en: "WUXI",         tier: "地级",   price: 14100, rent: 1550, salary: 10200 }, // 江苏
     { name: "温州",   en: "WENZHOU",      tier: "地级",   price: 14500, rent: 1500, salary: 9300 },  // 浙江
     { name: "东莞",   en: "DONGGUAN",     tier: "地级",   price: 16800, rent: 1600, salary: 9800 },  // 广东
     { name: "佛山",   en: "FOSHAN",       tier: "地级",   price: 12500, rent: 1450, salary: 9600 },  // 广东
     { name: "泉州",   en: "QUANZHOU",     tier: "地级",   price: 11500, rent: 1350, salary: 8600 },  // 福建
-    { name: "烟台",   en: "YANTAI",       tier: "地级",   price: 7300,  rent: 1050, salary: 8600 },  // 山东
+    { name: "烟台",   en: "YANTAI",       tier: "地级",   price: 7200,  rent: 1050, salary: 8600 },  // 山东
     { name: "洛阳",   en: "LUOYANG",      tier: "地级",   price: 7500,  rent: 1050, salary: 7600 },  // 河南
     { name: "宜昌",   en: "YICHANG",      tier: "地级",   price: 6300,  rent: 1200, salary: 8000 },  // 湖北
     { name: "岳阳",   en: "YUEYANG",      tier: "地级",   price: 5500,  rent: 1000, salary: 7800 },  // 湖南
@@ -80,11 +80,11 @@ window.CITY_DATA = {
     { name: "唐山",   en: "TANGSHAN",     tier: "地级",   price: 7700,  rent: 1000, salary: 8200 },  // 河北
     { name: "大同",   en: "DATONG",       tier: "地级",   price: 5800,  rent: 1000, salary: 7300 },  // 山西
     { name: "包头",   en: "BAOTOU",       tier: "地级",   price: 6000,  rent: 1000, salary: 8500 },  // 内蒙古
-    { name: "柳州",   en: "LIUZHOU",      tier: "地级",   price: 6100,  rent: 1100, salary: 7800 },  // 广西
+    { name: "柳州",   en: "LIUZHOU",      tier: "地级",   price: 6000,  rent: 1100, salary: 7800 },  // 广西
     { name: "三亚",   en: "SANYA",        tier: "地级",   price: 28100, rent: 2300, salary: 8500 },  // 海南
-    { name: "遵义",   en: "ZUNYI",        tier: "地级",   price: 5000,  rent: 850,  salary: 7600 },  // 贵州
+    { name: "遵义",   en: "ZUNYI",        tier: "地级",   price: 4900,  rent: 850,  salary: 7600 },  // 贵州
     { name: "大理",   en: "DALI",         tier: "地级",   price: 13800, rent: 1500, salary: 7500 },  // 云南
-    { name: "绵阳",   en: "MIANYANG",     tier: "地级",   price: 7100,  rent: 1000, salary: 8300 },  // 四川
+    { name: "绵阳",   en: "MIANYANG",     tier: "地级",   price: 7200,  rent: 1000, salary: 8300 },  // 四川
     { name: "咸阳",   en: "XIANYANG",     tier: "地级",   price: 6200,  rent: 950,  salary: 7800 },  // 陕西
     { name: "吉林",   en: "JILIN CITY",   tier: "地级",   price: 5400,  rent: 1150, salary: 7200 },  // 吉林
     { name: "大庆",   en: "DAQING",       tier: "地级",   price: 5000,  rent: 1200, salary: 8000 },  // 黑龙江
@@ -108,11 +108,11 @@ window.CITY_DATA = {
 
     /* —— 山西 其余地级市 —— */
     { name: "阳泉",   en: "YANGQUAN",     tier: "地级",   price: 5300,  rent: 900,  salary: 7300 },
-    { name: "长治",   en: "CHANGZHI",     tier: "地级",   price: 6400,  rent: 1000, salary: 7800 },
+    { name: "长治",   en: "CHANGZHI",     tier: "地级",   price: 6500,  rent: 1000, salary: 7800 },
     { name: "晋城",   en: "JINCHENG",     tier: "地级",   price: 6600,  rent: 1000, salary: 7900 },
     { name: "朔州",   en: "SHUOZHOU",     tier: "地级",   price: 5100,  rent: 900,  salary: 7500 },
     { name: "晋中",   en: "JINZHONG",     tier: "地级",   price: 6800,  rent: 1050, salary: 7600 },
-    { name: "运城",   en: "YUNCHENG",     tier: "地级",   price: 5900,  rent: 950,  salary: 7200 },
+    { name: "运城",   en: "YUNCHENG",     tier: "地级",   price: 5800,  rent: 950,  salary: 7200 },
     { name: "忻州",   en: "XINZHOU",      tier: "地级",   price: 5500,  rent: 900,  salary: 7100 },
     { name: "临汾",   en: "LINFEN",       tier: "地级",   price: 6200,  rent: 1000, salary: 7300 },
     { name: "吕梁",   en: "LVLIANG",      tier: "地级",   price: 5600,  rent: 900,  salary: 7500 },
@@ -164,7 +164,7 @@ window.CITY_DATA = {
     { name: "徐州",   en: "XUZHOU",       tier: "地级",   price: 9500,  rent: 1350, salary: 8800 },
     { name: "常州",   en: "CHANGZHOU",    tier: "地级",   price: 11200, rent: 1600, salary: 10200 },
     { name: "南通",   en: "NANTONG",      tier: "地级",   price: 12000, rent: 1600, salary: 9800 },
-    { name: "连云港", en: "LIANYUNGANG",  tier: "地级",   price: 7900,  rent: 1200, salary: 8300 },
+    { name: "连云港", en: "LIANYUNGANG",  tier: "地级",   price: 7800,  rent: 1200, salary: 8300 },
     { name: "淮安",   en: "HUAI'AN",      tier: "地级",   price: 7600,  rent: 1200, salary: 8300 },
     { name: "盐城",   en: "YANCHENG",     tier: "地级",   price: 8100,  rent: 1250, salary: 8500 },
     { name: "扬州",   en: "YANGZHOU",     tier: "地级",   price: 10300, rent: 1450, salary: 9200 },
@@ -183,9 +183,9 @@ window.CITY_DATA = {
     { name: "丽水",   en: "LISHUI",       tier: "地级",   price: 12000, rent: 1500, salary: 9200 },
 
     /* —— 安徽 其余地级市 —— */
-    { name: "蚌埠",   en: "BENGBU",       tier: "地级",   price: 6800,  rent: 1100, salary: 8000 },
+    { name: "蚌埠",   en: "BENGBU",       tier: "地级",   price: 6900,  rent: 1100, salary: 8000 },
     { name: "淮南",   en: "HUAINAN",      tier: "地级",   price: 6000,  rent: 1000, salary: 7800 },
-    { name: "马鞍山", en: "MA'ANSHAN",    tier: "地级",   price: 7900,  rent: 1200, salary: 8800 },
+    { name: "马鞍山", en: "MA'ANSHAN",    tier: "地级",   price: 8000,  rent: 1200, salary: 8800 },
     { name: "淮北",   en: "HUAIBEI",      tier: "地级",   price: 6800,  rent: 1050, salary: 7900 },
     { name: "铜陵",   en: "TONGLING",     tier: "地级",   price: 7000,  rent: 1100, salary: 8300 },
     { name: "安庆",   en: "ANQING",       tier: "地级",   price: 7600,  rent: 1150, salary: 8000 },
@@ -213,7 +213,7 @@ window.CITY_DATA = {
     { name: "新余",   en: "XINYU",        tier: "地级",   price: 6600,  rent: 1050, salary: 8200 },
     { name: "鹰潭",   en: "YINGTAN",      tier: "地级",   price: 7300,  rent: 1100, salary: 8000 },
     { name: "吉安",   en: "JI'AN",        tier: "地级",   price: 7900,  rent: 1150, salary: 7900 },
-    { name: "宜春",   en: "YICHUN (JX)",  tier: "地级",   price: 7300,  rent: 1100, salary: 7800 },
+    { name: "宜春",   en: "YICHUN (JX)",  tier: "地级",   price: 7200,  rent: 1100, salary: 7800 },
     { name: "抚州",   en: "FUZHOU (JX)",  tier: "地级",   price: 7600,  rent: 1100, salary: 7700 },
     { name: "上饶",   en: "SHANGRAO",     tier: "地级",   price: 8100,  rent: 1200, salary: 7900 },
 
@@ -223,7 +223,7 @@ window.CITY_DATA = {
     { name: "东营",   en: "DONGYING",     tier: "地级",   price: 8700,  rent: 1250, salary: 9800 },
     { name: "潍坊",   en: "WEIFANG",      tier: "地级",   price: 8100,  rent: 1200, salary: 8500 },
     { name: "济宁",   en: "JINING",       tier: "地级",   price: 7600,  rent: 1150, salary: 8200 },
-    { name: "泰安",   en: "TAI'AN",       tier: "地级",   price: 7900,  rent: 1200, salary: 8200 },
+    { name: "泰安",   en: "TAI'AN",       tier: "地级",   price: 8000,  rent: 1200, salary: 8200 },
     { name: "威海",   en: "WEIHAI",       tier: "地级",   price: 9500,  rent: 1300, salary: 8600 },
     { name: "日照",   en: "RIZHAO",       tier: "地级",   price: 8700,  rent: 1250, salary: 8300 },
     { name: "临沂",   en: "LINYI",        tier: "地级",   price: 8400,  rent: 1250, salary: 8200 },
@@ -250,7 +250,7 @@ window.CITY_DATA = {
     { name: "驻马店", en: "ZHUMADIAN",    tier: "地级",   price: 6800,  rent: 1050, salary: 7400 },
 
     /* —— 湖北 其余地级市 —— */
-    { name: "黄石",   en: "HUANGSHI",     tier: "地级",   price: 6100,  rent: 1000, salary: 8100 },
+    { name: "黄石",   en: "HUANGSHI",     tier: "地级",   price: 6200,  rent: 1000, salary: 8100 },
     { name: "十堰",   en: "SHIYAN",       tier: "地级",   price: 6800,  rent: 1050, salary: 8200 },
     { name: "襄阳",   en: "XIANGYANG",    tier: "地级",   price: 7300,  rent: 1150, salary: 8500 },
     { name: "鄂州",   en: "EZHOU",        tier: "地级",   price: 6400,  rent: 1000, salary: 8200 },
@@ -266,10 +266,10 @@ window.CITY_DATA = {
     { name: "湘潭",   en: "XIANGTAN",     tier: "地级",   price: 5800,  rent: 1000, salary: 8400 },
     { name: "衡阳",   en: "HENGYANG",     tier: "地级",   price: 6000,  rent: 1000, salary: 8000 },
     { name: "邵阳",   en: "SHAOYANG",     tier: "地级",   price: 5500,  rent: 950,  salary: 7500 },
-    { name: "常德",   en: "CHANGDE",      tier: "地级",   price: 6200,  rent: 1050, salary: 8100 },
+    { name: "常德",   en: "CHANGDE",      tier: "地级",   price: 6300,  rent: 1050, salary: 8100 },
     { name: "张家界", en: "ZHANGJIAJIE",  tier: "地级",   price: 6000,  rent: 1000, salary: 7600 },
     { name: "益阳",   en: "YIYANG",       tier: "地级",   price: 5600,  rent: 950,  salary: 7700 },
-    { name: "郴州",   en: "CHENZHOU",     tier: "地级",   price: 6200,  rent: 1000, salary: 7900 },
+    { name: "郴州",   en: "CHENZHOU",     tier: "地级",   price: 6300,  rent: 1000, salary: 7900 },
     { name: "永州",   en: "YONGZHOU",     tier: "地级",   price: 5500,  rent: 950,  salary: 7500 },
     { name: "怀化",   en: "HUAIHUA",      tier: "地级",   price: 5800,  rent: 950,  salary: 7600 },
     { name: "娄底",   en: "LOUDI",        tier: "地级",   price: 5300,  rent: 900,  salary: 7700 },
@@ -296,9 +296,9 @@ window.CITY_DATA = {
     /* —— 广西 其余地级市 —— */
     { name: "桂林",   en: "GUILIN",       tier: "地级",   price: 7900,  rent: 1200, salary: 7900 },
     { name: "梧州",   en: "WUZHOU",       tier: "地级",   price: 6800,  rent: 1050, salary: 7500 },
-    { name: "北海",   en: "BEIHAI",       tier: "地级",   price: 8700,  rent: 1250, salary: 7800 },
+    { name: "北海",   en: "BEIHAI",       tier: "地级",   price: 8600,  rent: 1250, salary: 7800 },
     { name: "防城港", en: "FANGCHENGGANG", tier: "地级",  price: 7900,  rent: 1150, salary: 7700 },
-    { name: "钦州",   en: "QINZHOU",      tier: "地级",   price: 7300,  rent: 1100, salary: 7500 },
+    { name: "钦州",   en: "QINZHOU",      tier: "地级",   price: 7200,  rent: 1100, salary: 7500 },
     { name: "贵港",   en: "GUIGANG",      tier: "地级",   price: 7000,  rent: 1100, salary: 7400 },
     { name: "玉林",   en: "YULIN (GX)",   tier: "地级",   price: 7600,  rent: 1150, salary: 7500 },
     { name: "百色",   en: "BAISE",        tier: "地级",   price: 7300,  rent: 1100, salary: 7600 },
@@ -320,10 +320,10 @@ window.CITY_DATA = {
     { name: "内江",   en: "NEIJIANG",     tier: "地级",   price: 6400,  rent: 1050, salary: 7700 },
     { name: "乐山",   en: "LESHAN",       tier: "地级",   price: 7300,  rent: 1150, salary: 8000 },
     { name: "南充",   en: "NANCHONG",     tier: "地级",   price: 7600,  rent: 1200, salary: 7900 },
-    { name: "眉山",   en: "MEISHAN",      tier: "地级",   price: 7900,  rent: 1200, salary: 8200 },
+    { name: "眉山",   en: "MEISHAN",      tier: "地级",   price: 8000,  rent: 1200, salary: 8200 },
     { name: "宜宾",   en: "YIBIN",        tier: "地级",   price: 7600,  rent: 1200, salary: 8300 },
     { name: "广安",   en: "GUANG'AN",     tier: "地级",   price: 6800,  rent: 1050, salary: 7600 },
-    { name: "达州",   en: "DAZHOU",       tier: "地级",   price: 7300,  rent: 1100, salary: 7700 },
+    { name: "达州",   en: "DAZHOU",       tier: "地级",   price: 7200,  rent: 1100, salary: 7700 },
     { name: "雅安",   en: "YA'AN",        tier: "地级",   price: 7000,  rent: 1100, salary: 8000 },
     { name: "巴中",   en: "BAZHONG",      tier: "地级",   price: 6800,  rent: 1050, salary: 7500 },
     { name: "资阳",   en: "ZIYANG",       tier: "地级",   price: 6600,  rent: 1050, salary: 7700 },
@@ -350,9 +350,9 @@ window.CITY_DATA = {
     { name: "那曲",   en: "NAGQU",        tier: "地级",   price: 7000,  rent: 1100, salary: 9800 },
 
     /* —— 陕西 其余地级市 —— */
-    { name: "铜川",   en: "TONGCHUAN",    tier: "地级",   price: 5600,  rent: 950,  salary: 7600 },
+    { name: "铜川",   en: "TONGCHUAN",    tier: "地级",   price: 5700,  rent: 950,  salary: 7600 },
     { name: "宝鸡",   en: "BAOJI",        tier: "地级",   price: 7000,  rent: 1100, salary: 8000 },
-    { name: "渭南",   en: "WEINAN",       tier: "地级",   price: 6800,  rent: 1050, salary: 7700 },
+    { name: "渭南",   en: "WEINAN",       tier: "地级",   price: 6700,  rent: 1050, salary: 7700 },
     { name: "延安",   en: "YAN'AN",       tier: "地级",   price: 7600,  rent: 1150, salary: 8300 },
     { name: "汉中",   en: "HANZHONG",     tier: "地级",   price: 7600,  rent: 1150, salary: 7900 },
     { name: "榆林",   en: "YULIN (SN)",   tier: "地级",   price: 8700,  rent: 1250, salary: 9500 },
@@ -382,15 +382,15 @@ window.CITY_DATA = {
     { name: "哈密",   en: "HAMI",         tier: "地级",   price: 5600,  rent: 950,  salary: 8200 },
 
     /* —— 台湾主要城市（实价登录/591 等公开数据，按当期汇率折合人民币） —— */
-    { name: "台北",   en: "TAIPEI",       tier: "台湾",   price: 50800, rent: 6800, salary: 14200 },
-    { name: "新北",   en: "NEW TAIPEI",   tier: "台湾",   price: 27200, rent: 4500, salary: 12000 },
-    { name: "桃园",   en: "TAOYUAN",      tier: "台湾",   price: 20400, rent: 3600, salary: 11800 },
-    { name: "新竹",   en: "HSINCHU",      tier: "台湾",   price: 23800, rent: 4050, salary: 14600 },
-    { name: "台中",   en: "TAICHUNG",     tier: "台湾",   price: 21800, rent: 3600, salary: 11300 },
-    { name: "嘉义",   en: "CHIAYI",       tier: "台湾",   price: 11600, rent: 2250, salary: 10200 },
-    { name: "台南",   en: "TAINAN",       tier: "台湾",   price: 17000, rent: 2900, salary: 10800 },
-    { name: "高雄",   en: "KAOHSIUNG",    tier: "台湾",   price: 18400, rent: 3100, salary: 10900 },
-    { name: "基隆",   en: "KEELUNG",      tier: "台湾",   price: 10200, rent: 2300, salary: 10300 }
+    { name: "台北",   en: "TAIPEI",       tier: "台湾",   price: 50300, rent: 6750, salary: 14100 },
+    { name: "新北",   en: "NEW TAIPEI",   tier: "台湾",   price: 26900, rent: 4450, salary: 11900 },
+    { name: "桃园",   en: "TAOYUAN",      tier: "台湾",   price: 20200, rent: 3550, salary: 11700 },
+    { name: "新竹",   en: "HSINCHU",      tier: "台湾",   price: 23600, rent: 4000, salary: 14500 },
+    { name: "台中",   en: "TAICHUNG",     tier: "台湾",   price: 21600, rent: 3550, salary: 11200 },
+    { name: "嘉义",   en: "CHIAYI",       tier: "台湾",   price: 11500, rent: 2250, salary: 10100 },
+    { name: "台南",   en: "TAINAN",       tier: "台湾",   price: 16800, rent: 2850, salary: 10700 },
+    { name: "高雄",   en: "KAOHSIUNG",    tier: "台湾",   price: 18200, rent: 3050, salary: 10800 },
+    { name: "基隆",   en: "KEELUNG",      tier: "台湾",   price: 10100, rent: 2300, salary: 10200 }
   ],
 
   /* 计算假设（可按需调整） */
@@ -403,9 +403,9 @@ window.CITY_DATA = {
   /* 国际参照城市：与中国城市同口径，数值为按当期汇率折合人民币的估算值
      price 平均房价（元/㎡）  rent 60㎡ 整租月租金（元/月）  salary 平均月薪（元/月，税前） */
   worldCities: [
-    { name: "纽约",   en: "NEW YORK",  price: 85700, rent: 25100, salary: 42900 },
-    { name: "伦敦",   en: "LONDON",    price: 92000, rent: 18100, salary: 37900 },
-    { name: "东京",   en: "TOKYO",     price: 42700, rent: 6400, salary: 22700 },
-    { name: "新加坡", en: "SINGAPORE", price: 135500, rent: 17500, salary: 30700 }
+    { name: "纽约",   en: "NEW YORK",  price: 84800, rent: 25500, salary: 42900 },
+    { name: "伦敦",   en: "LONDON",    price: 89500, rent: 17300, salary: 37900 },
+    { name: "东京",   en: "TOKYO",     price: 45200, rent: 6600, salary: 22700 },
+    { name: "新加坡", en: "SINGAPORE", price: 134800, rent: 17100, salary: 30700 }
   ]
 };
